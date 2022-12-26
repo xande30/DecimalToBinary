@@ -1,0 +1,77 @@
+from tkinter import ttk
+import tkinter.messagebox
+import pyttsx3
+
+
+
+
+
+class Converter:
+    def __init__(self,root):
+        self.root = root
+        blank_space = " "
+        self.root.title(202 * blank_space + "Python Convert To Decimal To Binary")
+        self.root.geometry("1360x700+0+0")
+        sapi = pyttsx3.init()
+        sapi.setProperty("rate", 178)
+        sapi.say("Python Convert To Decimal To Binary Tutorial, Enter A Number To Convert.Thank You!")
+        sapi.runAndWait()
+        MainFrame = Frame(self.root, bd=10, width=1350, height=700, relief=RIDGE)
+        MainFrame.grid()
+
+        TitleFrames = Frame(MainFrame, bd=10, width=1320, height=100, relief=RIDGE,bg='grey' ,padx=190)
+        TitleFrames.grid(row=0, column=0)
+
+        TextFrames = Frame(MainFrame, bd=10, width=1320, height=480, relief=RIDGE, padx=190,bg='grey')     
+        TextFrames.grid(row=1, column=0)
+
+        LeftFrames = Frame(TextFrames, bd=5, width=1000, height=480,padx=2, relief=RIDGE,bg='grey') 
+        LeftFrames.grid(row=0, column=0, pady=2)
+
+        ButtonFrames = Frame(TextFrames, bd=5, width=320, height=480, padx=2,relief=RIDGE,bg='grey') 
+        ButtonFrames.grid(row=0, column=1)
+
+        selflblTitle = Label(TitleFrames, font=('arial', 50, 'bold'), text="Convert Decimal To Binary",bd=7, padx=10, bg='grey').grid(padx=25,row=0,column=0)
+
+        def Reset():
+            txtConvertText.delete('1.0',END)
+            txtEnterText.delete('1.0',END)
+        def convertNumber():
+            if (len(txtEnterText.get("1.0","end-1c"))== 0 ):
+                tkinter.messagebox.showinfo("Converter", "Enter A Number To Conver")
+                sapi.say("Enter A Number To Convert")
+                sapi.runAndWait()
+                txtEnterText.focus_set()
+            else:
+                num = int(txtEnterText.get("1.0","end-1c"))
+                binary_num = bin(num)
+                hex_num = hex(num)
+                oct_num = oct(num)
+                txtConvertText.insert("end-1c",(f"Decimal = {num}\n\nBinary={binary_num[2:]}"))
+                txtConvertText.insert("end-1c",(f"\n\nHexadecimal = {hex_num}\n\nOctal={oct_num}"))
+        def iExit():
+                sapi.say('Confirm If You Want To Exit')
+                sapirunAndWait()
+                IExit = tkinter.messagebox.askyesno("Converter", "Confirm If You Want To Exit")
+                if IExit > 0:
+                    root.destroy()
+                    return
+        txtEnterText = Text(LeftFrames,height=1, width=30,bg='light yellow',font=('Courier', 40, 'bold'))
+        
+        txtEnterText.grid(row=0, column=0)
+        txtEnterText.focus_set()
+        txtConvertText = Text(LeftFrames,height=7, width=30,bg='light yellow',font=('Courier', 40, 'bold'))
+        txtConvertText.grid(row=1, column=0)
+
+        self.btnConvert = Button(ButtonFrames, font=('arial',30,'bold'),text="Convert\nTo\nBinary", bg='grey',command=convertNumber, bd=4, pady=1,width=10, height=3).grid(row=0, column=0, padx=25)
+
+        self.btnReset = Button(ButtonFrames, font=('arial',30,'bold'),text="Reset",command=Reset, bg='grey', bd=4, pady=1,width=10, height=3).grid(row=1, column=0,padx=25)
+
+        self.btnExit = Button(ButtonFrames, font=('arial',30,'bold'),text="Exit", bg='grey',command=iExit, bd=4, pady=1,width=10, height=3).grid(row=2, column=0, padx=25)
+
+
+if __name__ == '__main__':
+    root = Tk()
+    application = Converter(root)
+    root.mainloop()
+
